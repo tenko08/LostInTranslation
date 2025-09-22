@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 
@@ -24,27 +25,32 @@ public class GUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
 
+            Translator translator = new JSONTranslator();
+
             // Language Selector
             JPanel languagePanel = new JPanel();
             JComboBox<String> languageList = new JComboBox<>();
-            for(String languageCode : new JSONTranslator().getLanguageCodes()) {
+            for(String languageCode : translator.getLanguageCodes()) {
                 languageList.addItem(languageCode);
             }
             languagePanel.add(new JLabel("Language:"));
             languagePanel.add(languageList);
             // JTextField languageField = new JTextField(10);
             // languagePanel.add(new JLabel("Language:"));
-            // languagePanel.add(languageField);   
+            // languagePanel.add(languageField);
 
             
             // Country Selector
             JPanel countryPanel = new JPanel();
-            JList<String> countryComboBox = new JList<>();
-            for(String countryCode : new JSONTranslator().getCountryCodes()) {
-                countryComboBox.add(new JLabel(countryCode));
+            String[] countryCodes = new String[translator.getCountryCodes().size()];
+            int i = 0;
+            for(String countryCode : translator.getCountryCodes()) {
+                countryCodes[i++] = countryCode;
             }
+            JList<String> countryComboBox = new JList<>(countryCodes);
+            JScrollPane scrollPane = new JScrollPane(countryComboBox);
             countryPanel.add(new JLabel("Country:"));
-            countryPanel.add(countryComboBox);
+            countryPanel.add(scrollPane);
             // JTextField countryField = new JTextField(10);
             // countryField.setText("can");
             // countryField.setEditable(true);
@@ -72,7 +78,7 @@ public class GUI {
 
                     // for now, just using our simple translator, but
                     // we'll need to use the real JSON version later.
-                    Translator translator = new JSONTranslator();
+                    // Translator translator = new JSONTranslator();
 
                     String result = translator.translate(country, language);
                     if (result == null) {
