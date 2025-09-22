@@ -24,6 +24,7 @@ public class JSONTranslator implements Translator {
 
     // the key used is "countryCode-languageCode"; the value is the translated country name
     private final Map<String, String> translations = new HashMap<>();
+
     /**
      * Construct a JSONTranslator using data from the sample.json resources file.
      */
@@ -33,6 +34,7 @@ public class JSONTranslator implements Translator {
 
     /**
      * Construct a JSONTranslator populated using data from the specified resources file.
+     *
      * @param filename the name of the file in resources to load the data from
      * @throws RuntimeException if the resource file can't be loaded properly
      */
@@ -52,21 +54,22 @@ public class JSONTranslator implements Translator {
                 List<String> languages = new ArrayList<>();
 
                 // TODO Task C: record this countryCode in the correct instance variable
+                countryCodes.add(countryCode);
 
                 // iterate through the other keys to get the information that we need
                 for (String key : countryData.keySet()) {
                     if (!key.equals("id") && !key.equals("alpha2") && !key.equals("alpha3")) {
                         String languageCode = key;
                         // TODO Task C: record this translation in the appropriate instance variable
-
+                        String translation = countryData.getString(key);
+                        translations.put(languageCode, translation);
                         if (!languages.contains(languageCode)) {
                             languages.add(languageCode);
                         }
                     }
                 }
             }
-        }
-        catch (IOException | URISyntaxException ex) {
+        } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -74,7 +77,7 @@ public class JSONTranslator implements Translator {
     @Override
     public List<String> getLanguageCodes() {
         // TODO Task C: return a copy of the language codes
-        return new ArrayList<>();
+        return new ArrayList<>(languageCodes);
     }
 
     @Override
@@ -85,6 +88,7 @@ public class JSONTranslator implements Translator {
     @Override
     public String translate(String countryCode, String languageCode) {
         // TODO Task C: complete this method using your instance variables as needed
-        return "JSONTranslator's translate method is not implemented!";
+        String translationKey = countryCode + "-" + languageCode;
+        return translations.getOrDefault(translationKey, "JSONTranslator's translate method is not implemented!");
     }
 }
