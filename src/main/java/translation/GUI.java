@@ -2,7 +2,6 @@ package translation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -74,7 +73,7 @@ public class GUI {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String language = languageList.getSelectedItem().toString();
-                    String country = Arrays.toString(countryComboBox.getSelectedIndices());
+                    String country = countryComboBox.getSelectedValuesList().toArray(new String[0])[0];
 
                     // for now, just using our simple translator, but
                     // we'll need to use the real JSON version later.
@@ -99,6 +98,7 @@ public class GUI {
             JFrame frame = new JFrame("Country Name Translator");
             frame.setContentPane(mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setMinimumSize(new java.awt.Dimension(400, 300));
             frame.pack();
             frame.setVisible(true);
 
