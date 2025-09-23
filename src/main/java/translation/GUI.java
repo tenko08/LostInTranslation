@@ -98,6 +98,7 @@ public class GUI {
             JFrame frame = new JFrame("Country Name Translator");
             frame.setContentPane(mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setMinimumSize(new java.awt.Dimension(400, 300));
             frame.pack();
             frame.setVisible(true);
 
